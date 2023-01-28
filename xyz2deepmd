@@ -1,0 +1,14 @@
+import dpdata
+import os
+import sys
+file_name=sys.argv[1]
+a=os.system("grep forces "+file_name)
+if(a==0):
+    os.system("mkdir npy_data raw_data")
+    os.system("sed -i s/forces/force/ "+file_name)
+    os.system("sed -i s/free_energy/enn/ "+file_name)
+    os.system("sed -i s/energy/static_energy/ "+file_name)
+    os.system("sed -i s/enn/energy/ "+file_name)
+xyz=dpdata.MultiSystems.from_file(file_name='/home/deep229/skk/train/unep/composed-HEA-VW.xyz',fmt='quip/gap/xyz')
+xyz.to_deepmd_raw('./VW-raw_data')
+xyz.to_deepmd_npy('./VW-npy_data')
